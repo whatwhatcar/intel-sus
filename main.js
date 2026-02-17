@@ -1,5 +1,5 @@
 // --- Configuration ---
-const MAX_ATTENDANCE = 100; // Set this to your target number
+const MAX_ATTENDANCE = 5; // Set this to your target number
 
 // --- DOM Elements ---
 const dom = {
@@ -85,14 +85,14 @@ function addNameUserInterface(teamKey, name) {
     const userCard = document.createElement("div");
     userCard.className = "bg-white p-2 rounded shadow-sm text-sm text-gray-700 border-l-4 border-gray-300 animate-fade-in flex justify-between";
     
-    // Add specific team color accents to the card border
+    // Updated color logic to match new sustainability themes
     if(teamKey === 'team1') userCard.classList.replace('border-gray-300', 'border-blue-500');
-    if(teamKey === 'team2') userCard.classList.replace('border-gray-300', 'border-indigo-500');
-    if(teamKey === 'team3') userCard.classList.replace('border-gray-300', 'border-teal-500');
+    if(teamKey === 'team2') userCard.classList.replace('border-gray-300', 'border-emerald-500');
+    if(teamKey === 'team3') userCard.classList.replace('border-gray-300', 'border-amber-500');
 
     userCard.innerHTML = `<span>${name}</span> <span class="text-xs text-gray-400 self-center">Checked In</span>`;
     
-    listContainer.prepend(userCard); // Add to top of list
+    listContainer.prepend(userCard);
 }
 
 function showWelcome(name, teamName) {
