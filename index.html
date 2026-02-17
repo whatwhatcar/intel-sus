@@ -4,81 +4,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic HTML Page</title>
+    <title>Intel Attendance Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        intel: {
+                            blue: '#0068B5',
+                            light: '#00C7FD',
+                            dark: '#004280'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F3F4F6; }
+    </style>
 </head>
 
-<body>
-    <section class="hero h-40 flex items-center justify-center bg-blue-500 overflow-hidden">
-        <img class="w-full" src="chip.jpg">
-            <img class="absolute" src="intel-logo.svg" alt="group" width="100" height="100">
+<body class="text-slate-800">
+
+    <section class="relative w-full h-64 bg-intel-dark overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 to-intel-blue opacity-90"></div>
+        <div class="z-10 flex flex-col items-center">
+            <img src="intel-logo.svg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg'" alt="Intel Logo" class="w-24 h-24 mb-2 drop-shadow-lg filter brightness-0 invert">
+            <h1 class="text-white text-3xl font-light tracking-wide">Event Attendance</h1>
+        </div>
     </section>
 
-    <main>
-        <div class="flex items-center justify-center gap-2 mt-4 ml-4">
-            <img src="group-svgrepo-com.svg" alt="group" width="20" height="20">
-            <div>Attendence:</div>
-            <div id="attendance-count" class="text-red-500">0</div>
-            <div>/</div>
-            <div id="attendance-total">100</div>
-        </div>
+    <main class="max-w-4xl mx-auto -mt-10 px-4 pb-20 relative z-20">
+        
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+            
+            <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-intel-blue/10 p-2 rounded-full">
+                        <svg class="w-6 h-6 text-intel-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <div class="text-lg font-semibold text-gray-700">Total Attendance:</div>
+                    <div class="flex items-baseline gap-1 text-xl font-bold">
+                        <span id="attendance-count" class="text-intel-blue">0</span>
+                        <span class="text-gray-400 text-sm font-normal">/</span>
+                        <span id="attendance-total" class="text-gray-600">100</span>
+                    </div>
+                </div>
 
-        <div class="flex items-center justify-center p-4 w-full">
-            <div class="h-4 w-3/4 bg-gray-500 rounded-full overflow-hidden">
-                <div id="progress-fill" class="h-full w-0 rounded-full bg-blue-500"></div>
+                <div class="w-full md:w-1/2">
+                    <div class="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div id="progress-fill" class="h-full w-0 bg-intel-blue transition-all duration-500 ease-out"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8">
+                <div id="welcome-message" class="hidden mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-center font-medium">
+                    Welcome! Check-in successful.
+                </div>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Check-In</h2>
+                    <p class="text-gray-500">Please enter your details to join the session.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
+                    <input id="checkin-textbox" 
+                           class="w-full md:w-64 h-12 px-4 rounded-lg border border-gray-300 focus:border-intel-blue focus:ring-2 focus:ring-intel-blue/20 outline-none transition-all" 
+                           type="text" 
+                           name="user_name" 
+                           placeholder="Enter your name...">
+
+                    <div class="relative w-full md:w-48">
+                        <select id="checkin-select" 
+                                class="w-full h-12 px-4 rounded-lg border border-gray-300 bg-white focus:border-intel-blue focus:ring-2 focus:ring-intel-blue/20 outline-none appearance-none cursor-pointer transition-all" 
+                                name="options">
+                            <option value="" selected disabled>Select Team</option>
+                            <option value="team1">Engineering</option>
+                            <option value="team2">Marketing</option>
+                            <option value="team3">Sales</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+
+                    <button id="checkin-button" 
+                            class="w-full md:w-auto h-12 px-6 bg-intel-blue hover:bg-intel-dark text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2" 
+                            type="button">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Check In
+                    </button>
+                </div>
+
+                <hr class="border-gray-200 my-8">
+
+                <h3 class="text-lg font-semibold text-gray-700 mb-6 text-center uppercase tracking-wider text-sm">Team Breakdown</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div id="team1-border" class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-blue-500">
+                        <span class="text-gray-500 text-sm font-medium">Engineering</span>
+                        <span id="team1-count" class="text-3xl font-bold text-gray-800 mt-1">0</span>
+                    </div>
+                    <div id="team2-border" class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-indigo-500">
+                        <span class="text-gray-500 text-sm font-medium">Marketing</span>
+                        <span id="team2-count" class="text-3xl font-bold text-gray-800 mt-1">0</span>
+                    </div>
+                    <div id="team3-border" class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-teal-500">
+                        <span class="text-gray-500 text-sm font-medium">Sales</span>
+                        <span id="team3-count" class="text-3xl font-bold text-gray-800 mt-1">0</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 rounded-lg p-4 min-h-[200px]">
+                        <h4 class="font-bold text-blue-600 mb-3 border-b border-blue-200 pb-2">Engineering</h4>
+                        <div id="team1-list" class="space-y-2">
+                            </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 rounded-lg p-4 min-h-[200px]">
+                        <h4 class="font-bold text-indigo-600 mb-3 border-b border-indigo-200 pb-2">Marketing</h4>
+                        <div id="team2-list" class="space-y-2">
+                             </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 rounded-lg p-4 min-h-[200px]">
+                        <h4 class="font-bold text-teal-600 mb-3 border-b border-teal-200 pb-2">Sales</h4>
+                        <div id="team3-list" class="space-y-2">
+                             </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <section class="justify-center items-center flex">
-            <div class="mt-10 w-3/4 bg-blue-200 rounded-lg justify-start flex flex-col p-4" style="height: 400px">
-                <div id="welcome-message" class="bg-red-500 h-10 w-full rounded-lg flex items-center justify-center">
-                    welcome!
-                </div>
-
-                <div class="flex flex-col bg-green-500 h-40 w-full rounded-lg mt-3">
-                    <div class="m-5">Attendence Check-In</div>
-
-                    <div class="flex items-center justify-center">
-                        <input id="checkin-textbox" class="rounded-lg mr-4 h-10 pl-4" type="text" id="name" name="user_name" placeholder="Enter name...">
-
-                        <select id="checkin-select" class="rounded-lg h-10 mr-4" name="options" id="team-selector">
-                            <option value="" selected disabled>Select Team</option>
-
-                            <option value="team1">Option 1</option>
-                            <option value="team2">Option 2</option>
-                            <option value="team3">Option 3</option>
-                        </select>
-
-                        <button id="checkin-button" class="items-center justify-center bg-blue-200 flex rounded-lg h-10" style="width: 110px" type="button">
-                            <img class="m-1" src="person_check.svg" alt="group" width="20" height="20">
-                            Check In
-                        </button>
-                    </div>
-                </div>
-
-                <div class="h-[3px] w-full bg-gray-500 mt-5"> </div>
-
-                <div class="items-center justify-center flex w-full mt-4 mb-2">Team Attendence</div>
-
-                <div class="flex justify-center items-center">
-                    <div class="w-full h-20 p-1 m-2 justify-center items-center flex flex-col rounded-lg bg-red-500">
-                        <div>Team1</div>
-                        <div id="team1-count">0</div>
-                    </div>
-                    <div class="w-full h-20 p-1 m-2 justify-center items-center flex flex-col rounded-lg bg-blue-500">
-                        <div>Team2</div>
-                        <div id="team2-count">0</div>
-                    </div>
-                    <div class="w-full h-20 p-1 m-2 justify-center items-center flex flex-col rounded-lg bg-green-500">
-                        <div>Team3</div>
-                        <div id="team3-count">0</div>
-                    </div>
-                </div>
-        </section>
-
-
+        
+        <footer class="text-center mt-10 text-gray-400 text-sm">
+            &copy; 2024 Intel Corporation. Internal Use Only.
+        </footer>
     </main>
-    <script src="main.js"></script>
-</body>
 
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</body>
 </html>
