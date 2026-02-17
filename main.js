@@ -1,5 +1,5 @@
 // --- Configuration ---
-const MAX_ATTENDANCE = 5; // Set this to your target number
+const MAX_ATTENDANCE = 100; // Set this to your target number
 
 // --- DOM Elements ---
 const dom = {
@@ -112,13 +112,50 @@ function highlightTeam(teamKey) {
     setTimeout(() => border.classList.remove('ring-4', 'ring-intel-blue/30'), 500);
 }
 
+// --- New Function: Determine and Display Winner ---
+function handleWinner() {
+    const teams = [
+        { name: 'Team Water Wise', count: teamData.team1.count, key: 'team1' },
+        { name: 'Team Net Zero', count: teamData.team2.count, key: 'team2' },
+        { name: 'Team Renewables', count: teamData.team3.count, key: 'team3' }
+    ];
+
+    // Sort to find the highest count
+    const winner = teams.reduce((prev, current) => (prev.count > current.count) ? prev : current);
+
+    // Update the Winner Banner
+    const banner = document.getElementById('winner-banner');
+    const winnerText = document.getElementById('winner-text');
+    
+    winnerText.innerHTML = `🏆 ${winner.name} is the Winner with ${winner.count} members!`;
+    banner.classList.remove('hidden');
+
+    // Visual flair for the winning team card
+    dom.teams[winner.key].border.classList.add('ring-4', 'ring-yellow-400', 'scale-110', 'z-30');
+    
+    triggerCelebration();
+}
+
 function triggerCelebration() {
-    confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.6 },
-        colors: ['#0068B5', '#00C7FD', '#ffffff'] // Intel colors confetti
-    });
+    const duration = 5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
 }
 
 // --- Event Listeners ---
@@ -164,7 +201,7 @@ dom.btnCheckIn.addEventListener("click", () => {
 
     // 6. Check for completion
     if (currentAttendance >= MAX_ATTENDANCE) {
-        triggerCelebration();
+        handleWinner();
     }
 });
 

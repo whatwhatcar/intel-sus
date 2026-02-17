@@ -7,7 +7,7 @@
     <title>Intel Attendance Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -27,7 +27,10 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F3F4F6; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+        }
     </style>
 </head>
 
@@ -36,19 +39,25 @@
     <section class="relative w-full h-64 bg-intel-dark overflow-hidden flex items-center justify-center">
         <div class="absolute inset-0 bg-gradient-to-r from-slate-900 to-intel-blue opacity-90"></div>
         <div class="z-10 flex flex-col items-center">
-            <img src="intel-logo.svg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg'" alt="Intel Logo" class="w-24 h-24 mb-2 drop-shadow-lg filter brightness-0 invert">
+            <img src="intel-logo.svg"
+                onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg'"
+                alt="Intel Logo" class="w-24 h-24 mb-2 drop-shadow-lg filter brightness-0 invert">
             <h1 class="text-white text-3xl font-light tracking-wide">Event Attendance</h1>
         </div>
     </section>
 
     <main class="max-w-4xl mx-auto -mt-10 px-4 pb-20 relative z-20">
-        
+
         <div class="bg-white rounded-xl shadow-xl overflow-hidden">
-            
+
             <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
                     <div class="bg-intel-blue/10 p-2 rounded-full">
-                        <svg class="w-6 h-6 text-intel-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <svg class="w-6 h-6 text-intel-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
                     </div>
                     <div class="text-lg font-semibold text-gray-700">Total Attendance:</div>
                     <div class="flex items-baseline gap-1 text-xl font-bold">
@@ -60,13 +69,21 @@
 
                 <div class="w-full md:w-1/2">
                     <div class="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
-                        <div id="progress-fill" class="h-full w-0 bg-intel-blue transition-all duration-500 ease-out"></div>
+                        <div id="progress-fill" class="h-full w-0 bg-intel-blue transition-all duration-500 ease-out">
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <div id="winner-banner"
+                class="hidden mb-8 p-6 bg-gradient-to-r from-yellow-400 to-amber-600 text-white rounded-xl text-center shadow-lg transform scale-105 transition-all">
+                <h2 class="text-3xl font-black uppercase tracking-widest mb-1">Goal Reached!</h2>
+                <p id="winner-text" class="text-xl font-bold"></p>
+            </div>
+
             <div class="p-8">
-                <div id="welcome-message" class="hidden mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-center font-medium">
+                <div id="welcome-message"
+                    class="hidden mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-center font-medium">
                     Welcome! Check-in successful.
                 </div>
 
@@ -76,48 +93,56 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
-                    <input id="checkin-textbox" 
-                           class="w-full md:w-64 h-12 px-4 rounded-lg border border-gray-300 focus:border-intel-blue focus:ring-2 focus:ring-intel-blue/20 outline-none transition-all" 
-                           type="text" 
-                           name="user_name" 
-                           placeholder="Enter your name...">
+                    <input id="checkin-textbox"
+                        class="w-full md:w-64 h-12 px-4 rounded-lg border border-gray-300 focus:border-intel-blue focus:ring-2 focus:ring-intel-blue/20 outline-none transition-all"
+                        type="text" name="user_name" placeholder="Enter your name...">
 
                     <div class="relative w-full md:w-48">
-                        <select id="checkin-select" 
-                                class="w-full h-12 px-4 rounded-lg border border-gray-300 bg-white focus:border-intel-blue focus:ring-2 focus:ring-intel-blue/20 outline-none appearance-none cursor-pointer transition-all" 
-                                name="options">
+                        <select id="checkin-select"
+                            class="w-full h-12 px-4 rounded-lg border border-gray-300 bg-white focus:border-intel-blue focus:ring-2 focus:ring-intel-blue/20 outline-none appearance-none cursor-pointer transition-all"
+                            name="options">
                             <option value="" selected disabled>Select Team</option>
                             <option value="team1">Team Water Wise</option>
                             <option value="team2">Team Net Zero</option>
                             <option value="team3">Team Renewables</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
                         </div>
                     </div>
 
-                    <button id="checkin-button" 
-                            class="w-full md:w-auto h-12 px-6 bg-intel-blue hover:bg-intel-dark text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2" 
-                            type="button">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <button id="checkin-button"
+                        class="w-full md:w-auto h-12 px-6 bg-intel-blue hover:bg-intel-dark text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                        type="button">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         Check In
                     </button>
                 </div>
 
                 <hr class="border-gray-200 my-8">
 
-                <h3 class="text-lg font-semibold text-gray-700 mb-6 text-center uppercase tracking-wider text-sm">Team Breakdown</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-6 text-center uppercase tracking-wider text-sm">Team
+                    Breakdown</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div id="team1-border" class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-blue-500">
+                    <div id="team1-border"
+                        class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-blue-500">
                         <span class="text-gray-500 text-sm font-medium">Team Water Wise</span>
                         <span id="team1-count" class="text-3xl font-bold text-gray-800 mt-1">0</span>
                     </div>
-                    <div id="team2-border" class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-emerald-500">
+                    <div id="team2-border"
+                        class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-emerald-500">
                         <span class="text-gray-500 text-sm font-medium">Team Net Zero</span>
                         <span id="team2-count" class="text-3xl font-bold text-gray-800 mt-1">0</span>
                     </div>
-                    <div id="team3-border" class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-amber-500">
+                    <div id="team3-border"
+                        class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-amber-500">
                         <span class="text-gray-500 text-sm font-medium">Team Renewables</span>
                         <span id="team3-count" class="text-3xl font-bold text-gray-800 mt-1">0</span>
                     </div>
@@ -128,12 +153,12 @@
                         <h4 class="font-bold text-blue-600 mb-3 border-b border-blue-200 pb-2">Team Water Wise</h4>
                         <div id="team1-list" class="space-y-2"></div>
                     </div>
-                    
+
                     <div class="bg-slate-50 rounded-lg p-4 min-h-[200px]">
                         <h4 class="font-bold text-emerald-600 mb-3 border-b border-emerald-200 pb-2">Team Net Zero</h4>
                         <div id="team2-list" class="space-y-2"></div>
                     </div>
-                    
+
                     <div class="bg-slate-50 rounded-lg p-4 min-h-[200px]">
                         <h4 class="font-bold text-amber-600 mb-3 border-b border-amber-200 pb-2">Team Renewables</h4>
                         <div id="team3-list" class="space-y-2"></div>
@@ -146,4 +171,5 @@
     <script src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
+
 </html>
